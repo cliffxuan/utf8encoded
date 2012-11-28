@@ -13,7 +13,7 @@ handlers:
   script: main.app
 
 - url: /_ah/queue/hothandler/.*
-  script: hothandler.py
+  script: hothandler.wsgi_app
   login: admin
 
 libraries:

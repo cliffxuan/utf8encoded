@@ -23,7 +23,6 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 """
 import random
-from wsgiref.handlers import CGIHandler
 from google.appengine.api.labs import taskqueue
 from google.appengine.api import memcache
 from google.appengine.api.capabilities import CapabilitySet
@@ -45,8 +44,29 @@ def wsgi_app(env, res):
         memcache.set(HOT_HANDLER_PREFIX, next_token)
     res('200 OK',[('Content-Type','text/plain')])
     return ['ok']
-def main():
-    CGIHandler().run(wsgi_app)
-    
-if __name__ == '__main__':
-    main()
+
+#import webapp2
+#    
+#class MainHandler(webapp2.RequestHandler):
+#    def get(self):
+#        """ visit '/_ah/queue/hothandler/start' as admin to start a task """
+#        env = self.request.environ
+#        token = env['PATH_INFO'].replace(HOT_HANDLER_PREFIX,'')
+#        cur_token = memcache.get(HOT_HANDLER_PREFIX)
+#        if cur_token is None:
+#            if not memcache_service.is_enabled():
+#                cur_token = token
+#        if token in [cur_token, 'start']:
+#            next_token = str(random.random())
+#            url = '%s%s'%(HOT_HANDLER_PREFIX, next_token)
+#            next_task = taskqueue.Task(countdown=10, url=url)
+#            hot_handler_queue.add(next_task)
+#            memcache.set(HOT_HANDLER_PREFIX, next_token)
+#        self.response.code = '200 OK'
+#        self.response.headers['Content-Type'] = 'text/plain'
+#        return ['ok']
+
+
+#app = webapp2.WSGIApplication([
+#    ('/', MainHandler)
+#], debug=True)

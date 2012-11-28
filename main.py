@@ -45,7 +45,7 @@ class MainHandler(webapp2.RequestHandler):
                         '<strong>Convert text file to utf-8 encoded text file.</strong>'\
                         '<form action="" method="post" enctype="multipart/form-data">'\
                             '<input type="file" name="textfile">'\
-                            '<input type="submit" name="Upload">'\
+                            '<input type="submit" name="upload" value="Upload">'\
                         '</form>'\
                     '</body>'\
                 '<html/>'
@@ -75,7 +75,7 @@ class MainHandler(webapp2.RequestHandler):
                             '<strong>Convert text file to utf-8 encoded text file.</strong>'\
                             '<form action="" method="post" enctype="multipart/form-data">'\
                                 '<input type="file" name="textfile">'\
-                                '<input type="submit" name="Upload">'\
+                                '<input type="submit" name="upload" value="Upload">'\
                             '</form>'\
                         '</body>'\
                     '<html/>'
