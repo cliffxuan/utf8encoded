@@ -69,7 +69,7 @@ class MainHandler(webapp2.RequestHandler):
                 self.response.write(raw_file_utf_8)
         else:
             self.response.headers['Content-Type'] = 'text/html'
-            self.response.write(template.render({'error':'empty file'}))
+            self.response.write(template.render({'error':'choose a file'}))
             
 
 app = webapp2.WSGIApplication([
