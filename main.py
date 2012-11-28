@@ -14,8 +14,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import os
 import cgi
 import webapp2
+import jinja2
+
+jinja_environment = jinja2.Environment(
+    loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__),
+        'templates')))
 
 class UnSupportedEncoding(Exception):
     pass
@@ -40,53 +46,30 @@ def modify_file_name(file_name):
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        html = '<html>'\
-                    '<head>'\
-                        '<title>utf-8 encoded</title>'\
-                    '</head>'\
-                    '<body>'\
-                        '<strong>Convert text file encoding to utf-8.</strong>'\
-                        '<form action="" method="post" enctype="multipart/form-data">'\
-                            '<input type="file" name="textfile">'\
-                            '<input type="submit" name="upload" value="Upload">'\
-                        '</form>'\
-                    '</body>'\
-                '<html/>'
+        template = jinja_environment.get_template('index.html')
         self.response.headers['Content-Type'] = 'text/html'
-        self.response.write(html)
+        self.response.write(template.render({}))
 
     def post(self):
         environ = self.request.environ
         fs = cgi.FieldStorage(fp=environ['wsgi.input'],environ=environ)['textfile']
         file_name = fs.filename
+        template = jinja_environment.get_template('index.html')
         if file_name:
             try:
                 raw_file_utf_8 = make_sure_utf_8(fs.file.read())
             except UnSupportedEncoding, e:
                 self.response.code = 400
                 self.response.headers['Content-Type'] = 'text/html'
-                self.response.out.write(e)
+                self.response.write(e)
             else:
                 new_file_name = modify_file_name(file_name)
                 self.response.headers['Content-Type'] = 'text/plain'
                 self.response.headers['Content-Disposition'] = 'attachment; filename=%s' %new_file_name
-                self.response.out.write(raw_file_utf_8)
+                self.response.write(raw_file_utf_8)
         else:
-            html = '<html>'\
-                        '<head>'\
-                            '<title>utf-8 encoded</title>'\
-                        '</head>'\
-                        '<body>'\
-                            '<p style="color:red;">File empty</p>'\
-                            '<strong>Convert text file encoding to utf-8.</strong>'\
-                            '<form action="" method="post" enctype="multipart/form-data">'\
-                                '<input type="file" name="textfile">'\
-                                '<input type="submit" name="upload" value="Upload">'\
-                            '</form>'\
-                        '</body>'\
-                    '<html/>'
             self.response.headers['Content-Type'] = 'text/html'
-            self.response.write(html)
+            self.response.write(template.render({'error':'empty file'}))
             
 
 app = webapp2.WSGIApplication([
