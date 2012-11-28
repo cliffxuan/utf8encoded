@@ -41,8 +41,11 @@ def modify_file_name(file_name):
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         html = '<html>'\
+                    '<head>'\
+                        '<title>utf-8 encoded</title>'\
+                    '</head>'\
                     '<body>'\
-                        '<strong>Convert text file to utf-8 encoded text file.</strong>'\
+                        '<strong>Convert text file encoding to utf-8.</strong>'\
                         '<form action="" method="post" enctype="multipart/form-data">'\
                             '<input type="file" name="textfile">'\
                             '<input type="submit" name="upload" value="Upload">'\
@@ -70,9 +73,12 @@ class MainHandler(webapp2.RequestHandler):
                 self.response.out.write(raw_file_utf_8)
         else:
             html = '<html>'\
+                        '<head>'\
+                            '<title>utf-8 encoded</title>'\
+                        '</head>'\
                         '<body>'\
                             '<p style="color:red;">File empty</p>'\
-                            '<strong>Convert text file to utf-8 encoded text file.</strong>'\
+                            '<strong>Convert text file encoding to utf-8.</strong>'\
                             '<form action="" method="post" enctype="multipart/form-data">'\
                                 '<input type="file" name="textfile">'\
                                 '<input type="submit" name="upload" value="Upload">'\

@@ -1,4 +1,6 @@
-latin12utf8
+utf8encoded
 ===========
 
-convert latin 1 encoded file to utf8
+Small application that converts text file encoding to utf-8.
+
+It runs on Google App Engine [http://utf8encoded.appspot.com](http://utf8encoded.appspot.com/ "utf8 encoded")
